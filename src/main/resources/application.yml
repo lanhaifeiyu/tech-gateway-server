@@ -1,0 +1,26 @@
+server:
+    port: 9090
+spring:
+    cloud:
+        gateway:
+            routes:
+            -   id: google_route
+                uri: http://google.com:80/
+                predicates:
+                - Path=/google
+    application:
+        name: spring-cloud-gateway
+logging:
+    level:
+        org.springframework.cloud.gateway: TRACE
+        org.springframework.http.server.reactive: DEBUG
+        org.springframework.web.reactive: DEBUG
+        reactor.ipc.netty: DEBUG
+management:
+    endpoints:
+        jmx:
+            exposure:
+                include: '*'
+        web:
+            exposure:
+                include: '*'

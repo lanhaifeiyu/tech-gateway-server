@@ -1,15 +1,40 @@
 server:
-    port: 9090
+    port: 9001
 spring:
     cloud:
         gateway:
+            discovery:
+                locator:
+                    enabled: true
+                    lower-case-service-id:  true
             routes:
-            -   id: google_route
-                uri: http://google.com:80/
+            -   id: tech-blog-provider
+                uri: lb://tech-blog-provider
                 predicates:
-                - Path=/google
+                - Path=/feign/**
+    #            routes:
+    #            -   id: google_route
+    #                uri: http://google.com:80/
+    #                predicates:
+    #                - Path=/google
+    #            -   id: prefix_route
+    #                uri: http://localhost:8888/test/Hystrix?isSleep=true
+    #                predicates:
+    #                - Path=/test/Hystrix
+    #                filters:
+    #                -   name: Hystrix
+    #                    args:
+    #                        name: fallbackcmd
+    #                        fallbackUri: forward:/fallback
     application:
-        name: spring-cloud-gateway
+        name: tech-project-gateway
+eureka:
+    client:
+        serviceUrl:
+            defaultZone: http://182.61.49.180:8761/eureka/
+
+#Hystrix的fallbackcmd的时间
+hystrix.command.fallbackcmd.execution.isolation.thread.timeoutInMilliseconds: 5000
 logging:
     level:
         org.springframework.cloud.gateway: TRACE

@@ -27,7 +27,7 @@ spring:
     #                        name: fallbackcmd
     #                        fallbackUri: forward:/fallback
     application:
-        name: tech-project-gateway
+        name: tech-gateway-server
 eureka:
     client:
         serviceUrl:

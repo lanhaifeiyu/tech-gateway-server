@@ -8,8 +8,8 @@ spring:
                     enabled: true
                     lower-case-service-id:  true
             routes:
-            -   id: tech-blog-provider
-                uri: lb://tech-blog-provider
+            -   id: tech-airson-provider
+                uri: lb://tech-airson-provider
                 predicates:
                 - Path=/feign/**
     #            routes:
@@ -31,7 +31,7 @@ spring:
 eureka:
     client:
         serviceUrl:
-            defaultZone: http://182.61.49.180:8761/eureka/
+            defaultZone: http://172.81.216.81:8761/eureka/
 
 #Hystrix的fallbackcmd的时间
 hystrix.command.fallbackcmd.execution.isolation.thread.timeoutInMilliseconds: 5000

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Logback configuration. See http://logback.qos.ch/manual/index.html -->
+<configuration scan="true" scanPeriod="10 seconds" debug="false">
+    <contextName>tech-gateway-server</contextName>
+    <!--<include resource="org/springframework/boot/logging/logback/base.xml" /> -->
+
+
+    <springProfile name="dev">
+        <property name="LOG_PATH" value="../logs-all/tech-cloud/gateway/tech-gateway-server"/>
+    </springProfile>
+    <springProfile name="prod">
+        <property name="LOG_PATH" value="../logs-all/tech-cloud/gateway/tech-gateway-server"/>
+    </springProfile>
+
+    <!-- <withJansi>true</withJansi> %date{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %caller{1..2} %highlight(%-5level) %magenta(%logger) - %cyan(%msg)%n -->
+
+    <!-- 其他配置省略 -->
+    <appender name="appender_console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%date{yyyy-MM-dd HH:mm:ss} %highlight(%-5level): %cyan(%msg) &lt;&lt;&lt; [%thread] %replace(%caller{1..2}){'\s*Caller\+1\s*', ''}
+            </pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+            <!--<onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>-->
+        </filter>
+    </appender>
+
+    <!-- 一般信息按照每天生成日志文件 -->
+    <appender name="appender_rollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 每天一归档 -->
+            <fileNamePattern>${LOG_PATH}.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+            <!-- 单个日志文件最多100MB, 30天的日志周期，最大不能超过20GB -->
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>20GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
+            <pattern>%date{yyyy-MM-dd HH:mm:ss} %highlight(%-5level): %cyan(%msg) &lt;&lt;&lt; [%thread] %replace(%caller{1..2}){'\s*Caller\+1\s*', ''}
+            </pattern>
+        </encoder>
+    </appender>
+
+    <appender name="appender_err_rollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}.err.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}.%d{yyyy-MM-dd}.err.log.gz</fileNamePattern>
+            <maxHistory>90</maxHistory>
+            <totalSizeCap>20GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%date{yyyy-MM-dd HH:mm:ss} %highlight(%-5level): %cyan(%msg) &lt;&lt;&lt; [%thread] %replace(%caller{1..2}){'\s*Caller\+1\s*', ''}
+            </pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>WARN</level>
+            <!--<onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>-->
+        </filter>
+    </appender>
+
+    <!--<logger name="com.mysql" level="DEBUG"/>-->
+
+    <root level="INFO">
+        <appender-ref ref="appender_console"/>
+        <appender-ref ref="appender_rollingFile"/>
+    </root>
+
+</configuration>

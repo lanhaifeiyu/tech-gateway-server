@@ -4,7 +4,6 @@
     <contextName>tech-gateway-server</contextName>
     <!--<include resource="org/springframework/boot/logging/logback/base.xml" /> -->
 
-
     <springProfile name="dev">
         <property name="LOG_PATH" value="../logs-all/tech-cloud/gateway/tech-gateway-server"/>
     </springProfile>

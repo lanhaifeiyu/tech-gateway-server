@@ -31,7 +31,8 @@ spring:
 eureka:
     client:
         serviceUrl:
-            defaultZone: http://172.81.216.81:8761/eureka/
+            #defaultZone: http://172.81.216.81:8761/eureka/
+            defaultZone: http://10.1.0.11:8761/eureka/
 
 #Hystrix的fallbackcmd的时间
 hystrix.command.fallbackcmd.execution.isolation.thread.timeoutInMilliseconds: 5000
